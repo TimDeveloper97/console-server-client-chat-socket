@@ -8,34 +8,38 @@ namespace Client2
 {
     class Program
     {
+        const string name2 = "[client2]";
+        const string name1 = "[client1]";
         static async Task Main(string[] args)
         {
             WatsonWsClient client = new WatsonWsClient(new Uri("ws://127.0.0.1:8888"));
-            client.ServerConnected += ServerConnected;
+            //WatsonWsClient client = new WatsonWsClient(new Uri("ws://192.168.137.206:8090"));
+
+            client.ServerConnected += (s,e) =>
+            {
+                var mess = client.SendAsync(name2);
+            };
+
             client.ServerDisconnected += ServerDisconnected;
             client.MessageReceived += MessageReceived;
-            //client.KeepAliveInterval = 10000000;
 
             await client.StartAsync();
-            if (client.Connected)
-                Console.WriteLine("client connected");
-            else
-                Console.WriteLine("client not connected");
-
-            //await client.SendAsync("hello server duyanh day");
+            //if (client.Connected)
+            //    Console.WriteLine("client connected");
+            //else
+            //    Console.WriteLine("client not connected");
 
             while (true)
             {
-                
                 var message = Console.ReadLine();
-                await client.SendAsync("[client2][client1]" + message);
+                await client.SendAsync($"{name2}{name1}" + message);
             }
             Process.GetCurrentProcess().WaitForExit();
         }
 
         static void MessageReceived(object sender, MessageReceivedEventArgs args)
         {
-            Console.WriteLine("Message from server: " + Encoding.UTF8.GetString(args.Data));
+            Console.WriteLine(Encoding.UTF8.GetString(args.Data));
         }
 
         static void ServerConnected(object sender, EventArgs args)
