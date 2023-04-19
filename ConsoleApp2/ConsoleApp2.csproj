@@ -6,9 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="M2Mqtt" Version="4.3.0" />
-    <PackageReference Include="WatsonWebsocket" Version="4.0.8" />
-    <PackageReference Include="WebSocket4Net" Version="0.15.2" />
+    <PackageReference Include="Microsoft.AspNet.SignalR.Client" Version="2.4.3" />
   </ItemGroup>
 
 </Project>

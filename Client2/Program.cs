@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 using WatsonWebsocket;
@@ -12,7 +13,9 @@ namespace Client2
         const string name1 = "[client1]";
         static async Task Main(string[] args)
         {
-            WatsonWsClient client = new WatsonWsClient(new Uri("ws://127.0.0.1:8888"));
+            WatsonWsClient client = new WatsonWsClient(new Uri("ws://192.168.137.206:8887/ws/chat"));
+            //WatsonWsClient client = new WatsonWsClient("192.168.137.206", 8090, false);
+
             //WatsonWsClient client = new WatsonWsClient(new Uri("ws://192.168.137.206:8090"));
 
             client.ServerConnected += (s,e) =>
@@ -24,10 +27,10 @@ namespace Client2
             client.MessageReceived += MessageReceived;
 
             await client.StartAsync();
-            //if (client.Connected)
-            //    Console.WriteLine("client connected");
-            //else
-            //    Console.WriteLine("client not connected");
+            if (client.Connected)
+                Console.WriteLine("client connected");
+            else
+                Console.WriteLine("client not connected");
 
             while (true)
             {
